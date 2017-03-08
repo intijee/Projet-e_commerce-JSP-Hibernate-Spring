@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.1.xsd">
+
+	<context:property-placeholder location="classpath*:data-source-info.properties" />
+	<!-- Définition du bean dataSource -->
+	<bean id="dataSourceBean1"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="${driver}" />
+		<property name="url" value="${url}" />
+		<property name="username" value="${user}" />
+		<property name="password" value="${mdp}" />
+	</bean>
+
+	<!-- Déclaration des URL sécurisées et les autorisations -->
+	<security:http>
+		<!-- Les Urls interceptées seront peut être écrites d'une autre manière 
+			!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+		<!-- Interception des URL -->
+		<security:intercept-url pattern="/admin_cat/**"
+			access="ROLE_ADMIN_CAT" />
+		<security:intercept-url pattern="/admin_prod/**"
+			access="ROLE_ADMIN_PROD,ROLE_ADMIN_CAT" />
+		<security:form-login login-page="/loginUrl"
+			authentication-failure-url="/loginUrl" />
+		<security:logout invalidate-session="true"
+			logout-success-url="/employe/accueil" /> <!-- A voir par la suite où redirige la déco!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+	</security:http>
+	<security:authentication-manager>
+		<security:authentication-provider>
+			<!-- Les requetes SQL sont à modifier!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+			<security:jdbc-user-service
+				data-source-ref="dataSourceBean1"
+				users-by-username-query="SELECT username,password,activated FROM users WHERE username=?"
+				authorities-by-username-query="SELECT u.username,r.rolename FROM users u, roles r WHERE r.id_r=u.id_role AND u.username=?" />
+		</security:authentication-provider>
+
+	</security:authentication-manager>
+</beans>

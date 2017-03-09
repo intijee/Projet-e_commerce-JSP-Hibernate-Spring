@@ -31,7 +31,7 @@
 		<!-- Injection de la datasource -->
 		<property name="dataSource" ref="dataSourceBean" />
 		<!-- Les classes persistentes -->
-		<property name="packagesToScan" value="fr.adaming.model" />
+		<property name="packagesToScan" value="fr.adaming.entities" />
 		<!-- Les propriétés de hibernate -->
 		<property name="hibernateProperties">
 			<props>

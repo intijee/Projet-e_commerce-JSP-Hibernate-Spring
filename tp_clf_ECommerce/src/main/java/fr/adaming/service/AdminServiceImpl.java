@@ -135,7 +135,7 @@ public class AdminServiceImpl implements IAdminService {
 
 	@Override
 	public int modifierRoleService(Admin admin, Role role) {
-		
+		// il pourrait être judicieux de n'accepter en role que ROLE_ADMIN_CAT et ROLE_ADMIN_PROD
 		try {
 			
 			adminDao.modifierRole(admin, role);

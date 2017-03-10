@@ -168,7 +168,7 @@ public class AdminClassTestService {
 	@Test
 	@Rollback(true)
 	@Transactional
-	public void testSupprimerAdminService(int id_admin){
+	public void testSupprimerAdminService(){
 		Admin ad = new Admin("t@t", "t");
 		Role roleInitial = new Role("ROLE_ADMIN_PROD");
 		ad.setpRole(roleInitial);

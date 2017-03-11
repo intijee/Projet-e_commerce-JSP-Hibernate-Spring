@@ -7,14 +7,14 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Accueil</title>
+<title>Accueil Super Admin</title>
 <script type="text/javascript" src='<c:url value="/resources/bootstrap.js"/>'></script>
 <script type="text/javascript" src='<c:url value="/resources/jquery-3.1.1.js"/>'></script>
 <link rel='stylesheet' href='<c:url value="/resources/bootstrap.css"/>'/>
 </head>
 <body background='<c:url value="/resources/fonecran.jpg"/>'>
 
-<%@include file="/resources/include/menuGeneral.html"%>
+<%@include file="/resources/include/menuAdminCat.html"%>
 
 </body>
 </html>

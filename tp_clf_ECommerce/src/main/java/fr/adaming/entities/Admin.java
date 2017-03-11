@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * Classe qui gere toutes les taches administratives
@@ -38,16 +39,30 @@ public class Admin implements Serializable{
 	@JoinColumn(name="role_id", referencedColumnName="id_role")
 	private Role pRole;
 	
+	@Transient
+	private String nomRole;
+	
 	// Constructeur vide
 	public Admin() {
 		super();
 	}
 
-	// Constructeur avec paramètre sans id
+	
+	
 	public Admin(String mail, String password) {
 		super();
 		this.mail = mail;
 		this.password = password;
+	}
+
+
+
+	// Constructeur avec paramètre sans id
+	public Admin(String mail, String password,String nomRole) {
+		super();
+		this.mail = mail;
+		this.password = password;
+		this.nomRole=nomRole;
 	}
 
 	
@@ -98,6 +113,21 @@ public class Admin implements Serializable{
 
 	public void setpRole(Role pRole) {
 		this.pRole = pRole;
+	}
+
+
+	/**
+	 * @return the nomRole
+	 */
+	public String getNomRole() {
+		return nomRole;
+	}
+
+	/**
+	 * @param nomRole the nomRole to set
+	 */
+	public void setNomRole(String nomRole) {
+		this.nomRole = nomRole;
 	}
 
 	// Redéfinition de toString

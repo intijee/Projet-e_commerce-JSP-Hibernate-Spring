@@ -17,30 +17,32 @@
 <%@include file="/resources/include/menuAdminCat.html"%>
 
 <div style="width: 700px; margin: auto; margin-top: 80px">
-Liste des Categories
+<h2 style="color:white" align="center">Liste des Admins</h2>
+
+
+
 
 <table class="table table-hover" style="color: white" >
 <tr>
 <th>Id</th>
 <th>Nom</th>
-<th>Description</th>
+<th>Role</th>
 <th>Supp/Edit</th>
 </tr>
 
 <tr>
 <td>
-<c:forEach var="cat" items="${catListe}">
+<c:forEach var="ad" items="${adminListe}">
 <tr>
-<td>${cat.id}</td>
-<td>${cat.nom}</td>
-<td>${cat.description}</td>
-<td><a href="soumettreFormSupprimerCategorie?nom_param=${cat.nom}">Supprimer</a> | <a href="afficherFormModifierCategorie?cat_id_param=${cat.id}">Editer</a>
+<td>${ad.id}</td>
+<td>${ad.mail}</td>
+<td>${ad.pRole.designation}</td>
+<td><a href="soumettreFormSupprimerAdmin?mail_param=${ad.mail}">Supprimer</a>
 </tr>
 </c:forEach>
 </td>
 </tr>
 </table>
 </div>
-
 </body>
 </html>

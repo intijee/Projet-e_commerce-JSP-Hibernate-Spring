@@ -138,5 +138,13 @@ public interface IAdminService {
 	 * @return la catégorie retrouvée
 	 */
 	public Categorie getCategorieByIdService(long id);
+	
+	
+	
+	/**
+	 * Methode pour recupérer la liste des admins
+	 * @return la liste des admins
+	 */
+	public List<Admin> getAllAdminService();
 
 }

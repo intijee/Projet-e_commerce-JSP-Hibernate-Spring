@@ -134,4 +134,11 @@ public interface IAdminDao {
 	 * @return la catégorie retrouvée
 	 */
 	public Categorie getCategorieById (long id);
+	
+	
+	/**
+	 * Methode pour recupérer la liste des admins
+	 * @return la liste des admins
+	 */
+	public List<Admin> getAllAdmin();
 }

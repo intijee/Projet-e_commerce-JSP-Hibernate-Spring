@@ -217,6 +217,12 @@ public class AdminServiceImpl implements IAdminService {
 		return adminDao.getCategorieById(id);
 	}
 
+	@Override
+	public List<Admin> getAllAdminService() {
+	
+		return adminDao.getAllAdmin();
+	}
+
 
 
 

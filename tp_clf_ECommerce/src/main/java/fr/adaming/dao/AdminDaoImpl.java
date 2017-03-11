@@ -250,4 +250,22 @@ public class AdminDaoImpl implements IAdminDao {
 		return (Categorie) s.get(Categorie.class, id);
 	}
 
+	
+	@Override
+	public List<Admin> getAllAdmin() {
+			
+		Session s = sf.getCurrentSession();
+
+		// Ecriture de la requete
+		String req = "select a from Admin a";
+
+		Query query = s.createQuery(req);
+
+		if (query.list().size() != 0) {
+			return query.list();
+		} else {
+			return null;
+		}
+	}
+
 }

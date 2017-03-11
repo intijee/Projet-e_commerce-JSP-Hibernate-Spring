@@ -213,7 +213,7 @@ public class AdminDaoImpl implements IAdminDao {
 		Session s=sf.getCurrentSession();
 		
 		// Ecriture de la requete
-		String req="select from a from Admin a where a.mail=pMail";
+		String req="select a from Admin a where a.mail=:pMail";
 		
 		// Creation de la requete
 		Query query=s.createQuery(req);

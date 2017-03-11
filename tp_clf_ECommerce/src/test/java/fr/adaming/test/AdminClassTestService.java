@@ -1,6 +1,8 @@
 package fr.adaming.test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
@@ -25,49 +27,74 @@ import fr.adaming.service.IClientService;
 @ContextConfiguration(locations = { "file:src/main/webapp/WEB-INF/applicationContext.xml" })
 
 public class AdminClassTestService {
+	
 	@Autowired
 	IAdminService adminService;
+	
 	@Autowired
 	IClientService clientService;
 
+	
 	@Test
 	@Rollback(true)
 	@Transactional
 	public void testIsExist() {
+		
+		// On crée un nouvel admin
 		Admin a = new Admin("t@t", "t");
+		
+		// On ajoute cet admin à la base de donnée
 		adminService.ajouterAdminService(a);
+		
+		// On vérifie que cet admin a bien été crée
 		int res = adminService.isExistService(a);
+		
+		// On vérifie ensuite que la méthode renvoie le bon résultat
 		int resAttendu = 1;
 		assertTrue(res == resAttendu);
 	}
 
+	
+	
 	@Test
 	@Rollback(true)
 	@Transactional
 	public void testAjouterProduitService() {
+		
+		// On ajoute un produit à la base de donnée
 		Produit p = new Produit("toto", "titi", 20, 50, false);
 		adminService.ajouterProduitService(p);
+		
+		// On recupère la liste des produit
 		List<Produit> listeproduit = adminService.getAllProduitService();
-		for (Produit prod : listeproduit) {
-			System.out.println(prod);
-		}
+	
 		// On vérifie sur le dernier produit ajouté
 		Produit pp = listeproduit.get(listeproduit.size() - 1);
+		
+		// On vérifie que le produit est bien ajouté avec les bonnes caractéristiques
 		assertEquals(p.getDesignation(), pp.getDesignation());
 	}
 
 	@Test
 	@Rollback(true)
 	@Transactional
-	// je pourrai faire un while qui me parcourt tous les élément de la liste
-	// mais bon on va pas s'enflammer sur les tests du coup je test que le
-	// dernier ajouté...
 	public void testSupprimerProduitService() {
+		
+		// On crée un nouveau produit
 		Produit p = new Produit("toto", "titi", 20, 50, false);
+		
+		// On l'ajoute à la base de donnée
 		adminService.ajouterProduitService(p);
+		
+		// On vérifie que la liste des produits n'est pas nulle
 		int taille = adminService.getAllProduitService().size();
+		
 		if (taille != 0) { // on vérifie que la liste n'est pas vide
-			adminService.supprimerProduitByNameService(taille - 1);
+			
+			// On supprime ce produit grâce à son id (qu'on recupère dans la base de données)
+			adminService.supprimerProduitByNameService(adminService.chercherProduitByNameService(p.getDesignation()).getId());
+			
+			// On vérifie ensuite que la taille de la liste a bien diminué de 1
 			int resAttendu = taille - 1;
 			int newTaille = adminService.getAllProduitService().size();
 			assertTrue(resAttendu == newTaille);
@@ -78,40 +105,65 @@ public class AdminClassTestService {
 	@Rollback(true)
 	@Transactional
 	public void testModifierProduitService() {
+		
+		// On crée un nouveau produit
 		Produit p = new Produit("toto", "titi", 20, 50, false);
+		
+		// On ajoute ce produit à la base de données
 		adminService.ajouterProduitService(p);
-		int id = adminService.getAllProduitService().size() - 1;
-		Produit pMod = new Produit("lala", "lulu", 60, 100, true);
-		adminService.modifierProduitService(id, pMod);
-		Produit pp = adminService.getAllProduitService().get(id);
-		assertEquals("lala", pp.getDesignation());
-
+		
+		// On recupére l'id du produit à partir de son nom
+		int id = (adminService.chercherProduitByNameService(p.getDesignation())).getId();
+		
+		// Affection de nouvelles valeurs aux attributs du produit
+		p.setDesignation("nomUnique");
+		
+		// On modifie le produit
+		adminService.modifierProduitService(id, p);
+		
+		// On vérifie qu'on retrouve bien un produit avec ce nom
+		assertNotNull(adminService.chercherProduitByNameService(p.getDesignation()));
 	}
 
 	@Test
 	@Rollback(true)
 	@Transactional
 	public void testChercherProduitByNameService() {
+		
+		// On crée un nouveau produit
 		String designation = "toto";
 		Produit p = new Produit("toto", "titi", 20, 50, false);
+		
+		// On ajoute ce produit à la base de donnée
 		adminService.ajouterProduitService(p);
+		
+		// On vérifie que le produit est bien ajouté a la base et on le recupère
 		String resDesignation = adminService.chercherProduitByNameService(designation).getDesignation();
-		assertEquals(designation, resDesignation); // oui c'est de la merde ces
-													// tests
+		
+		// On vérifie qu'on retrouve bien le bon produit
+		assertEquals(designation, resDesignation); 
+													
 	}
 
 	@Test
 	@Rollback(true)
 	@Transactional
-	// pas très inspiré pour celle là, elle teste aussi l'ajout
 	public void testGetAllProduitService() {
+		
+		// On recupère la liste des produits présents dans la base de donnée
 		List<Produit> listeBefore = adminService.getAllProduitService();
+		
+		// On crée un nouveau produit
 		Produit p = new Produit("toto", "titi", 20, 50, false);
+		
+		// On ajoute ce produit à la base de donnée
 		adminService.ajouterProduitService(p);
+		
+		
+		// On recupère la nouvelle liste de produit
 		List<Produit> listeproduit = adminService.getAllProduitService();
-		for (Produit prod : listeproduit) {
-			System.out.println(prod);
-		}
+		
+		// On vérifie que la taille de la liste à bien augmenté de 1 (donc qu'on recupère la bonne liste)
 		assertTrue(listeBefore.size() == listeproduit.size() - 1);
 	}
 
@@ -119,36 +171,66 @@ public class AdminClassTestService {
 	@Rollback(true)
 	@Transactional
 	public void testAjouterCategorieService() {
+		
+		// On crée une nouvelle catégorie
 		Categorie cat = new Categorie("toto", "titi");
+		
+		// On vérifie le retour de la méthode
 		int verif = adminService.ajouterCategorieService(cat);
+		
+		// On vérifie que le retour est bien 1 (la catégorie a bien été ajouté)
 		int resAttendu = 1;
-		assertTrue(verif == resAttendu); // de moins en moins d'inspiration
+		assertTrue(verif == resAttendu); 
 	}
 
 	@Test
 	@Rollback(true)
 	@Transactional
 	public void testModifierCategorieService() {
+		
+		// On crée une nouvelle catégorie
 		Categorie cat = new Categorie("toto", "titi");
+		
+		// On l'ajout dans la base de données
 		adminService.ajouterCategorieService(cat);
-		int id = clientService.getAllCategorieService().size() - 1;
-		Categorie catMod = new Categorie("lala", "lulu");
-		adminService.modifierCategorieService(id, catMod);
-		Categorie catcat = clientService.getAllCategorieService().get(id);
-		assertEquals("lala", catcat.getNom());
+		
+		// On retrouve cet catégorie dans la base de donnée pour récupérer son id
+		int id = (int) clientService.getCategorieByNameService(cat.getNom()).getId();
+		
+		// On affecte de nouvelles valeurs aux attributs de la catégorie
+		cat.setDescription("lala");
+		cat.setNom("lili");
+		
+		// On modifie cette catégorie dans la base de donnée
+		adminService.modifierCategorieService(id, cat);
+		
+		// On vérifie qu'on recupère bien une catégorie qui a ce nom
+		assertNotNull(clientService.getCategorieByNameService(cat.getNom()));
 	}
+	
 
 	@Test
 	@Rollback(true)
 	@Transactional
 	public void testModifierRoleService() {
+		
+		// On crée un nouvel admin et un nouveau role
 		Admin ad = new Admin("t@t", "t");
 		Role roleInitial = new Role("ROLE_ADMIN_PROD");
+		
+		// On donne ce role a l'admin
 		ad.setpRole(roleInitial);
+		
+		// On ajoute l'admin dans la base
 		adminService.ajouterAdminService(ad);
+		
+		// On crée un nouveau role
 		Role roleFinal = new Role("ROLE_ADMIN_CAT");
+		
+		// On modifie le role de l'admin 
 		adminService.modifierRoleService(ad, roleFinal);
-		// Je suis pas sûr de mon coup
+		
+		// On vérifie que le nouveau role de l'admin est le bon
 		assertEquals(roleFinal.getDesignation(), ad.getpRole().getDesignation());
 	}
 
@@ -157,48 +239,75 @@ public class AdminClassTestService {
 	@Transactional
 	public void testAjouterAdminService() {
 
+		
+		// On crée un nouvel admin
 		Admin ad = new Admin("t@t", "t");
-		Role roleInitial = new Role("ROLE_ADMIN_PROD");
-		ad.setpRole(roleInitial);
-		int verif = adminService.ajouterAdminService(ad);
-		int resAttendu = 1;
-		assertTrue(verif == resAttendu);
+	
+		// On ajoute cet admin à la base de donnée
+		adminService.ajouterAdminService(ad);
+	
+		// On vérifie qu'on entrant ce mail on retrouve bien un nouvel admin
+		assertNotNull(adminService.getAdminByMailService(ad.getMail()));
 
 	}
+
 	@Test
 	@Rollback(true)
 	@Transactional
-	public void testSupprimerAdminService(){
+	public void testSupprimerAdminService() {
+		
+		// On crée un nouvel admin
 		Admin ad = new Admin("t@t", "t");
-		Role roleInitial = new Role("ROLE_ADMIN_PROD");
-		ad.setpRole(roleInitial);
+		
+		// On ajoute cet admin dans la base de donnée
 		adminService.ajouterAdminService(ad);
+		
+		// On recupère l'admin crée dans la base
 		Admin adSup = adminService.getAdminByMailService(ad.getMail());
+		
+		// On le supprime grâce à son id
 		adminService.supprimerAdminService(adSup.getId());
+		
+		// On essaie de récupérer cet admin
 		Admin adVerif = adminService.getAdminByMailService(ad.getMail());
-		assertEquals(adVerif, null);
+		
+		// On vérifie qu'on ne récupère rien
+		assertNull(adVerif);
 
 	}
+
+	
 	@Test
 	@Rollback(true)
 	@Transactional
-	public void testGetRoleByNameService(){
-	Admin ad = new Admin("t@t", "t");
-	Role roleInitial = new Role("ROLE_ADMIN_PROD");
-	ad.setpRole(roleInitial);
-	adminService.ajouterAdminService(ad);
-	// normalement si la cascade fonctionne...
-	String nom_role=roleInitial.getDesignation();
-	Role roleFinal = adminService.getRoleByNameService(nom_role);
-	assertEquals(nom_role, roleFinal.getDesignation());
+	public void testGetRoleByNameService() {
+
+		// On crée un nouveau role (existant dans la base de donnée)
+		Role roleInitial = new Role("ROLE_ADMIN_PROD");
+
+		// On recupère un role qui a ce nom dans la base de donnée
+		String nom_role = roleInitial.getDesignation();
+		Role roleFinal = adminService.getRoleByNameService(nom_role);
+		
+		// On vérifie qu'on recupère bien le bon role
+		assertEquals(nom_role, roleFinal.getDesignation());
 	}
+
 	@Test
 	@Rollback(true)
 	@Transactional
-	public void testGetAdminByMailService(){
+	public void testGetAdminByMailService() {
+		
+		// On crée un nouvel admin
 		Admin ad = new Admin("t@t", "t");
+		
+		// On ajoute cet admin à la base de données
 		adminService.ajouterAdminService(ad);
+		
+		// On recupère cet admin dans la base de données
 		Admin adVerif = adminService.getAdminByMailService("t@t");
+		
+		// On vérifie qu'on a bien recupéré le bon grâce à son password
 		assertEquals(ad.getPassword(), adVerif.getPassword());
 	}
 

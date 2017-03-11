@@ -141,4 +141,14 @@ public interface IAdminDao {
 	 * @return la liste des admins
 	 */
 	public List<Admin> getAllAdmin();
+	
+	
+	/**
+	 * Methode pour recupérer un produit avec son id
+	 * @param l'id du produit
+	 * @return le produit trouvé
+	 */
+	public Produit getProduitById(int id_produit);
+	
+	
 }

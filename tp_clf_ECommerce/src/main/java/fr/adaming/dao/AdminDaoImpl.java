@@ -268,4 +268,12 @@ public class AdminDaoImpl implements IAdminDao {
 		}
 	}
 
+	@Override
+	public Produit getProduitById(int id_produit) {
+		
+		Session s=sf.getCurrentSession();
+		
+		return (Produit) s.get(Produit.class, id_produit);
+	}
+
 }

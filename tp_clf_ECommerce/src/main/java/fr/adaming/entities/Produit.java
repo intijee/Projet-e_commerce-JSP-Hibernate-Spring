@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 
 /**
@@ -50,6 +51,9 @@ public class Produit implements Serializable{
 	@OneToMany(mappedBy="pProduit")
 	// Définition d'une liste de lignes de commande auquel le produit appartient
 	private List<LigneCommande> listeLigneCommande;
+	
+	@Transient
+	private String nomCat;
 
 
 	// Constructeur vide
@@ -67,6 +71,21 @@ public class Produit implements Serializable{
 		this.selectionne = selectionne;
 	}
 
+	
+	// Constructeur sans id
+	public Produit(String designation, String description, long prix, int quantite, boolean selectionne,
+			Categorie pCategorie, List<LigneCommande> listeLigneCommande, String nomCat) {
+		super();
+		this.designation = designation;
+		this.description = description;
+		this.prix = prix;
+		this.quantite = quantite;
+		this.selectionne = selectionne;
+		this.pCategorie = pCategorie;
+		this.listeLigneCommande = listeLigneCommande;
+		this.nomCat = nomCat;
+	}
+
 	// Constructeur avec id
 	public Produit(int id, String designation, String description, long prix, int quantite, boolean selectionne) {
 		super();
@@ -76,6 +95,22 @@ public class Produit implements Serializable{
 		this.prix = prix;
 		this.quantite = quantite;
 		this.selectionne = selectionne;
+	}
+	
+	
+	// Constructeur avec tous les paramètres
+	public Produit(int id, String designation, String description, long prix, int quantite, boolean selectionne,
+			Categorie pCategorie, List<LigneCommande> listeLigneCommande, String nomCat) {
+		super();
+		this.id = id;
+		this.designation = designation;
+		this.description = description;
+		this.prix = prix;
+		this.quantite = quantite;
+		this.selectionne = selectionne;
+		this.pCategorie = pCategorie;
+		this.listeLigneCommande = listeLigneCommande;
+		this.nomCat = nomCat;
 	}
 
 	// Getter et setter
@@ -149,6 +184,19 @@ public class Produit implements Serializable{
 	}
 	
 
+	/**
+	 * @return the nomCat
+	 */
+	public String getNomCat() {
+		return nomCat;
+	}
+
+	/**
+	 * @param nomCat the nomCat to set
+	 */
+	public void setNomCat(String nomCat) {
+		this.nomCat = nomCat;
+	}
 
 	// Redéfinition de toString
 	@Override

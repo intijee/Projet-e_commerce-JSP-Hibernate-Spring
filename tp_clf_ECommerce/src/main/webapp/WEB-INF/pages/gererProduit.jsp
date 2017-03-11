@@ -14,33 +14,38 @@
 </head>
 <body background='<c:url value="/resources/fonecran.jpg"/>'>
 
-<%@include file="/resources/include/menuAdminCat.html"%>
+<%@include file="/resources/include/menuAdminProd.html"%>
 
 <div style="width: 700px; margin: auto; margin-top: 80px">
-<h2 style="color:white" align="center">Liste des Admins</h2>
 
 
+<h2 style="color:white" align="center">Liste des produits</h2>
 <br/>
-
 <table class="table table-hover" style="color: white" >
 <tr>
 <th>Id</th>
 <th>Nom</th>
-<th>Role</th>
+<th>Description</th>
+<th>Quantite</th>
+<th>Prix</th>
 <th>Supp/Edit</th>
 </tr>
 
 
-<c:forEach var="ad" items="${adminListe}">
+
+<c:forEach var="prod" items="${prodListe}">
 <tr>
-<td>${ad.id}</td>
-<td>${ad.mail}</td>
-<td>${ad.pRole.designation}</td>
-<td><a href="soumettreFormSupprimerAdmin?mail_param=${ad.mail}">Supprimer</a> | <a href="afficherFormModifierAdmin?ad_mail_param=${ad.mail}">Editer</a>
+<td>${cat.id}</td>
+<td>${prod.designation}</td>
+<td>${prod.description}</td>
+<td>${prod.quantite}</td>
+<td>${prod.prix}</td>
+<td><a href="soumettreFormSupprimerProduit?nom_param=${prod.designation}">Supprimer</a> | <a href="afficherFormModifierProduit?prod_id_param=${prod.id}">Editer</a>
 </tr>
 </c:forEach>
 
 </table>
 </div>
+
 </body>
 </html>

@@ -146,5 +146,12 @@ public interface IAdminService {
 	 * @return la liste des admins
 	 */
 	public List<Admin> getAllAdminService();
+	
+	/**
+	 * Methode pour recupérer un produit avec son id
+	 * @param l'id du produit
+	 * @return le produit trouvé
+	 */
+	public Produit getProduitByIdService(int id_produit);
 
 }

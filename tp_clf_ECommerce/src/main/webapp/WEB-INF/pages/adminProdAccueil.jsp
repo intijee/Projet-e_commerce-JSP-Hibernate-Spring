@@ -14,33 +14,7 @@
 </head>
 <body background='<c:url value="/resources/fonecran.jpg"/>'>
 
-<%@include file="/resources/include/menuAdminCat.html"%>
+<%@include file="/resources/include/menuAdminProd.html"%>
 
-<div style="width: 700px; margin: auto; margin-top: 80px">
-<h2 style="color:white" align="center">Liste des Admins</h2>
-
-
-<br/>
-
-<table class="table table-hover" style="color: white" >
-<tr>
-<th>Id</th>
-<th>Nom</th>
-<th>Role</th>
-<th>Supp/Edit</th>
-</tr>
-
-
-<c:forEach var="ad" items="${adminListe}">
-<tr>
-<td>${ad.id}</td>
-<td>${ad.mail}</td>
-<td>${ad.pRole.designation}</td>
-<td><a href="soumettreFormSupprimerAdmin?mail_param=${ad.mail}">Supprimer</a> | <a href="afficherFormModifierAdmin?ad_mail_param=${ad.mail}">Editer</a>
-</tr>
-</c:forEach>
-
-</table>
-</div>
 </body>
 </html>

@@ -17,7 +17,8 @@
 <%@include file="/resources/include/menuAdminCat.html"%>
 
 <div style="width: 700px; margin: auto; margin-top: 80px">
-Liste des Categories
+<h2 style="color:white" align="center">Liste des categories</h2>
+<br/>
 
 <table class="table table-hover" style="color: white" >
 <tr>
@@ -27,8 +28,7 @@ Liste des Categories
 <th>Supp/Edit</th>
 </tr>
 
-<tr>
-<td>
+
 <c:forEach var="cat" items="${catListe}">
 <tr>
 <td>${cat.id}</td>
@@ -37,8 +37,7 @@ Liste des Categories
 <td><a href="soumettreFormSupprimerCategorie?nom_param=${cat.nom}">Supprimer</a> | <a href="afficherFormModifierCategorie?cat_id_param=${cat.id}">Editer</a>
 </tr>
 </c:forEach>
-</td>
-</tr>
+
 </table>
 </div>
 

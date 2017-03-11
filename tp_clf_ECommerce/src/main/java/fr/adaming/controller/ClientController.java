@@ -9,7 +9,9 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import fr.adaming.entities.Admin;
 import fr.adaming.entities.Categorie;
 import fr.adaming.entities.Produit;
 import fr.adaming.service.IClientService;
@@ -80,6 +82,27 @@ public class ClientController {
 		
 
 		return "resultatCategorie";
+	}
+	
+	@RequestMapping(value = "/ajouterPanier", method = RequestMethod.GET)
+	public String soumettreFormulaireSupprimerAdmin(Model model, @RequestParam("nom_param") int id_produit) {
+
+		// On recupère l'employé grâce à son mail
+		
+		Produit p = clientService.selectionnerProduitByNameService(id_produit);
+
+		// On supprime l'employé envoyé
+		adminService.supprimerAdminService(ad.getId());
+
+		// On recupère la liste des admins grâce à la méthode d'adminService
+		List<Admin> listeAdmin = adminService.getAllAdminService();
+
+		// On ajoute la liste dans le model
+		model.addAttribute("adListe", listeAdmin);
+
+		// On navigue vers la page où la liste sera affichée
+		return "gererAdmin";
+
 	}
 	
 	

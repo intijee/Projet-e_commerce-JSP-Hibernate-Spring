@@ -80,7 +80,7 @@ public interface IAdminService {
 	 * @param categorie qui encapsule les nouvelles informations
 	 * @return un entier qui donne la réussite ou non de la méthode
 	 */
-	public int modifierCategorieService(int id_categorie, Categorie categorie);
+	public int modifierCategorieService(long id_categorie, Categorie categorie);
 	
 	
 	/**
@@ -121,5 +121,22 @@ public interface IAdminService {
 	 * @return l'admin trouvé si il existe
 	 */
 	public Admin getAdminByMailService(String mail_admin);
+	
+	
+	
+	/**
+	 * Methode pour supprimer une catégorie
+	 * @param categorie que l'on veut supprimer
+	 * @return un entier pour savoir si la suppression a reussi
+	 */
+	public int supprimerCategorieService(Categorie categorie);
+	
+	
+	/**
+	 * Methode pour trouver une catégorie avec son id
+	 * @param id de la catégorie qu'on veut trouver
+	 * @return la catégorie retrouvée
+	 */
+	public Categorie getCategorieByIdService(long id);
 
 }

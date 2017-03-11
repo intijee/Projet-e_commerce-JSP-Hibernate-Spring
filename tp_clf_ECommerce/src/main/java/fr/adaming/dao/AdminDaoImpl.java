@@ -132,7 +132,7 @@ public class AdminDaoImpl implements IAdminDao {
 	}
 
 	@Override
-	public void modifierCategorie(int id_categorie, Categorie categorie) {
+	public void modifierCategorie(long id_categorie, Categorie categorie) {
 
 		Session s = sf.getCurrentSession();
 
@@ -230,6 +230,24 @@ public class AdminDaoImpl implements IAdminDao {
 		return null;
 		
 		}
+	}
+
+	@Override
+	public void supprimerCategorie(Categorie categorie) {
+
+
+		Session s=sf.getCurrentSession();
+		
+		s.delete(categorie);
+		
+	}
+
+	@Override
+	public Categorie getCategorieById(long id) {
+	
+		Session s=sf.getCurrentSession();
+		
+		return (Categorie) s.get(Categorie.class, id);
 	}
 
 }

@@ -118,7 +118,7 @@ public class AdminServiceImpl implements IAdminService {
 	}
 
 	@Override
-	public int modifierCategorieService(int id_categorie, Categorie categorie) {
+	public int modifierCategorieService(long id_categorie, Categorie categorie) {
 		
 		try {
 			
@@ -193,6 +193,28 @@ public class AdminServiceImpl implements IAdminService {
 		
 		return adminDao.getAdminByMail(mail_admin);
 		
+	}
+
+	@Override
+	public int supprimerCategorieService(Categorie categorie) {
+		
+		
+		try {
+			
+			adminDao.supprimerCategorie(categorie);;
+			return 1;
+			
+			} catch(Exception e){
+				
+			return 0;
+			
+			}
+	}
+
+	@Override
+	public Categorie getCategorieByIdService(long id) {
+		
+		return adminDao.getCategorieById(id);
 	}
 
 

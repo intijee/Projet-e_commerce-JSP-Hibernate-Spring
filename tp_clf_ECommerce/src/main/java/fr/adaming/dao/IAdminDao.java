@@ -79,7 +79,7 @@ public interface IAdminDao {
 	 * @param id_categorie de la catégorie à modifier
 	 * @param categorie qui encapsule les nouvelles informations
 	 */
-	public void modifierCategorie(int id_categorie, Categorie categorie);
+	public void modifierCategorie(long id_categorie, Categorie categorie);
 	
 	
 	/**
@@ -118,5 +118,20 @@ public interface IAdminDao {
 	 * @return l'admin trouvé si il existe
 	 */
 	public Admin getAdminByMail(String mail_admin);
+	
+	
+	/**
+	 * Methode pour supprimer une catégorie
+	 * @param categorie que l'on veut supprimer
+	 */
+	public void supprimerCategorie(Categorie categorie);
 
+	
+	
+	/**
+	 * Methode pour trouver une catégorie avec son id
+	 * @param id de la catégorie qu'on veut trouver
+	 * @return la catégorie retrouvée
+	 */
+	public Categorie getCategorieById (long id);
 }

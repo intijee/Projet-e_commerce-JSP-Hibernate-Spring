@@ -33,8 +33,6 @@ public class AdminCatController {
 		this.adminService = adminService;
 	}
 
-	String nom_role = null;
-
 	@Autowired
 	IClientService clientService;
 
@@ -174,6 +172,30 @@ public class AdminCatController {
 
 		// On navigue vers la page où la liste sera affichée
 		return "gererAdmin";
+
+	}
+	
+	
+	@RequestMapping(value = "/afficherFormModifierAdmin", method = RequestMethod.GET)
+	public String afficherFormulaireModifierAdmin(Model model, @RequestParam("ad_mail_param") String mail_admin) {
+
+		Admin ad = adminService.getAdminByMailService(mail_admin);
+
+		model.addAttribute("modifierFormAdmin", ad);
+
+		// On affiche sur la page modifier
+		return "modifierAdmin";
+	}
+
+	@RequestMapping(value = "/soumettreFormModifierAdmin", method = RequestMethod.POST)
+	public String soumettreFormulaireModifierAdmin(Model model, @ModelAttribute("modifierFormAdmin") Admin ad) {
+		
+		ad.setpRole(adminService.getRoleByNameService(ad.getNomRole()));
+		
+		// On envoie l'admin à modifier
+		adminService.modifierRoleService(ad,ad.getpRole());
+
+		return "adminCatAccueil";
 
 	}
 

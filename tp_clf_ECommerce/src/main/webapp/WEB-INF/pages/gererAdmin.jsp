@@ -37,7 +37,7 @@
 <td>${ad.id}</td>
 <td>${ad.mail}</td>
 <td>${ad.pRole.designation}</td>
-<td><a href="soumettreFormSupprimerAdmin?mail_param=${ad.mail}">Supprimer</a>
+<td><a href="soumettreFormSupprimerAdmin?mail_param=${ad.mail}">Supprimer</a> | <a href="afficherFormModifierCategorie?ad_mail_param=${ad.mail}">Editer</a>
 </tr>
 </c:forEach>
 </td>

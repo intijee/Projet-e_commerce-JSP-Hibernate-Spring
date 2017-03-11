@@ -7,6 +7,6 @@
 <title>Index</title>
 </head>
 <body>
-<%response.sendRedirect("/"); %>
+<%response.sendRedirect("client/acc"); %>
 </body>
 </html>

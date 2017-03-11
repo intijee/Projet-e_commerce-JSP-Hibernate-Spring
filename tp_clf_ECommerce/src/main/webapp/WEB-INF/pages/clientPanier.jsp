@@ -15,7 +15,30 @@
 <link rel='stylesheet' href='<c:url value="/resources/bootstrap.css"/>' />
 </head>
 <body background='<c:url value="/resources/fonecran.jpg"/>'>
+<%@include file="/resources/include/menuClient.html"%>
+	<h1 style="color: fuchsia;">Article du panier</h1>
+	<div align="right"><a href="supprimerPanier?param=${produit.designation}">Vider le panier</a></div>
+	<table class="table table-hover" style="color: white">
+			<tr>
+				<th>Designation</th>
+				<th>Description</th>
+				<th>Quantite</th>
+				<th>Prix</th>
+				
+			</tr>
 
+			<tr>
+				<td><c:forEach var="produit" items="${prodListeSelection}">
+						<tr>
+							<td>${produit.designation}</td>
+							<td>${produit.description}</td>
+							<td>${produit.quantite}</td>
+							<td>${produit.prix}</td>
+						</tr>
+					</c:forEach>
+		</table>
+		
+		<a href="enregistrerClient">Enregistrer la commande</a>
 
 
 

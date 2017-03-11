@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import fr.adaming.entities.Admin;
 import fr.adaming.entities.Categorie;
+import fr.adaming.entities.Client;
 import fr.adaming.entities.Produit;
+import fr.adaming.service.IAdminService;
 import fr.adaming.service.IClientService;
 
 @Controller
@@ -24,6 +26,11 @@ public class ClientController {
 	IClientService clientService;
 	public void setClientService(IClientService clientService) {
 		this.clientService = clientService;
+	}
+	@Autowired
+	IAdminService adminService;
+	public void setAdminService(IAdminService adminService) {
+		this.adminService = adminService;
 	}
 
 	// lien vers accueil
@@ -85,25 +92,41 @@ public class ClientController {
 	}
 	
 	@RequestMapping(value = "/ajouterPanier", method = RequestMethod.GET)
-	public String soumettreFormulaireSupprimerAdmin(Model model, @RequestParam("nom_param") int id_produit) {
+		public String soumettreFormulaireAjouterProduitPanier(Model model, @RequestParam("param") String nom_produit) {
 
-		// On recupère l'employé grâce à son mail
-		
-		Produit p = clientService.selectionnerProduitByNameService(id_produit);
+			Produit produit = adminService.chercherProduitByNameService(nom_produit);
+			clientService.selectionnerProduitByNameService(produit.getId());
+			List<Produit> listeProduitSelectionne = clientService.getAllProduitSelectionneService();
+			model.addAttribute("prodListeSelection", listeProduitSelectionne);
+			return "clientPanier";
+		}
+	@RequestMapping(value = "/panier", method = RequestMethod.GET)
+	public String afficherPanier(Model model) {
 
-		// On supprime l'employé envoyé
-		adminService.supprimerAdminService(ad.getId());
-
-		// On recupère la liste des admins grâce à la méthode d'adminService
-		List<Admin> listeAdmin = adminService.getAllAdminService();
-
-		// On ajoute la liste dans le model
-		model.addAttribute("adListe", listeAdmin);
-
-		// On navigue vers la page où la liste sera affichée
-		return "gererAdmin";
-
+		List<Produit> listeProduitSelectionne = clientService.getAllProduitSelectionneService();
+		model.addAttribute("prodListeSelection", listeProduitSelectionne);
+		return "clientPanier";
+	}
+	@RequestMapping(value = "/supprimerPanier", method = RequestMethod.GET)
+	public String soumettreFormulaireSupprimerProduitPanier(Model model) {
+		clientService.remiseZeroSelectionneService();
+		List<Produit> listeProduitSelectionne = clientService.getAllProduitSelectionneService();
+		model.addAttribute("prodListeSelection", listeProduitSelectionne);
+		return "clientPanier";
+	}
+	@RequestMapping(value = "/enregistrerClient", method = RequestMethod.GET)
+	public String enregistrerCommandeAfficher(Model model) {
+		model.addAttribute("client", new Client());
+		return "clientFormulaire";
 	}
 	
+	@RequestMapping(value = "/soumettreClient", method = RequestMethod.POST)
+	public String enregistrerCommandeSoumettre(ModelMap model, @ModelAttribute("client") Client client) {
+		//Categorie categorie = clientService.getCategorieByNameService(cat);
+		
+		clientService.EnregistrerClientCommandeService(client);
+
+		return "clientAccueil";
+	}
 	
 }

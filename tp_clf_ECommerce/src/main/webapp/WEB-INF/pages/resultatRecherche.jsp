@@ -34,7 +34,7 @@
 							<td>${produit.description}</td>
 							<td>${produit.quantite}</td>
 							<td>${produit.prix}</td>
-							<td><a href="ajouterPanier?nom_param=${produit.designation}">Ajouter au panier</a>
+							<td><a href="ajouterPanier?param=${produit.designation}">Ajouter au panier</a>
 						</tr>
 					</c:forEach>
 		</table>

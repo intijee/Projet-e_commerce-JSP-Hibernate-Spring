@@ -68,7 +68,7 @@ public class ClientController {
 		return "clientAccueil";
 	}
 
-	// lien la recherche par mot clé
+	// lien la recherche par mot clé et son formulaire
 	@RequestMapping(value = "/motCle", method = RequestMethod.GET)
 	public String chercherMotCle(ModelMap model) {
 		model.addAttribute("produitMotCle", new Produit());
@@ -89,12 +89,12 @@ public class ClientController {
 	// affichage des catégories
 	@RequestMapping(value = "/afficherCat", method = RequestMethod.GET)
 	public String afficherLesCategories(ModelMap model) {
-
+// C'est un formulaire avec la liste déroulante des catégorie en entrée
 		model.addAttribute("cat", new Categorie());
-
+// Affichage de la liste des catégories
 		List<Categorie> listeCategorie = clientService.getAllCategorieService();
 		model.addAttribute("catListe", listeCategorie);
-
+// Affichage dans le menu déroulant de la liste
 		List<String> listeNomCat = clientService.getAllCategorieNameService();
 		model.addAttribute("catNomListe", listeNomCat);
 
@@ -106,6 +106,8 @@ public class ClientController {
 		// Categorie categorie = clientService.getCategorieByNameService(cat);
 
 		Categorie categorie = clientService.getCategorieByNameService(cat.getNom());
+		
+		//On récupère les produit de la catégorie correspondante
 		List<Produit> listeProduit = clientService.getAllProduitCategorieService(categorie);
 		model.addAttribute("listeProduitCat", listeProduit);
 
@@ -114,9 +116,11 @@ public class ClientController {
 
 	@RequestMapping(value = "/ajouterPanier", method = RequestMethod.GET)
 	public String soumettreFormulaireAjouterProduitPanier(Model model, @RequestParam("param") String nom_produit) {
-
+		
+		// On récupère le produit à partir du nom récupéré sur la page
 		Produit produit = adminService.chercherProduitByNameService(nom_produit);
 		clientService.selectionnerProduitByNameService(produit.getId());
+		
 //		this.ligneCommande.setpProduit(produit);
 //		this.ligneCommande.setQuantite(produit.getQuantite());
 //		List<Produit> listeProduitSelectionne = clientService.getAllProduitSelectionneService();
@@ -128,28 +132,32 @@ public class ClientController {
 //		this.listeCommande.add(ligneCommande);
 //		Panier panier = new Panier();
 //		panier.setListeLigneCommandes(listeCommande);
+		
+		// On renvoie la liste des produits sélectionnés
 		List<Produit> listeProduitSelectionne = clientService.getAllProduitSelectionneService();
 		model.addAttribute("prodListeSelection", listeProduitSelectionne);
+		
 //		long pprix = 0;
 //		for (LigneCommande lc : this.listeCommande) {
 //			long prix = lc.getPrix();
 //			pprix = pprix + prix;
 //		}
+		
 		long pprix = 0;
 		for (Produit p : listeProduitSelectionne) {
 			long prix = p.getPrix();
 			pprix = pprix + prix;
 		}
 		model.addAttribute("prix", pprix);
-		model.addAttribute("prix", pprix);
 		return "clientPanier";
 	}
 
 	@RequestMapping(value = "/panier", method = RequestMethod.GET)
 	public String afficherPanier(Model model) {
-
+// Affichage des produits dans le panier
 		List<Produit> listeProduitSelectionne = clientService.getAllProduitSelectionneService();
 		model.addAttribute("prodListeSelection", listeProduitSelectionne);
+//Affichage du prix
 		long pprix = 0;
 		for (Produit p : listeProduitSelectionne) {
 			long prix = p.getPrix();
@@ -162,6 +170,7 @@ public class ClientController {
 
 	@RequestMapping(value = "/supprimerPanier", method = RequestMethod.GET)
 	public String soumettreFormulaireSupprimerProduitPanier(Model model) {
+		// Vider le panier
 		clientService.remiseZeroSelectionneService();
 		List<Produit> listeProduitSelectionne = clientService.getAllProduitSelectionneService();
 		model.addAttribute("prodListeSelection", listeProduitSelectionne);
@@ -170,14 +179,15 @@ public class ClientController {
 
 	@RequestMapping(value = "/enregistrerClient", method = RequestMethod.GET)
 	public String enregistrerCommandeAfficher(Model model) {
+		//Formulaire pour enregistrer le client
 		model.addAttribute("client", new Client());
 		return "clientFormulaire";
 	}
 
 	@RequestMapping(value = "/soumettreClient", method = RequestMethod.POST)
 	public String enregistrerCommandeSoumettre(ModelMap model, @ModelAttribute("client") Client client) {
-		// Categorie categorie = clientService.getCategorieByNameService(cat);
-
+		
+// On enregistre le client
 		clientService.EnregistrerClientCommandeService(client);
 
 		return "clientAccueil";

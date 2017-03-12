@@ -18,25 +18,22 @@
 
 	<!-- Déclaration des URL sécurisées et les autorisations -->
 	<security:http>
-		<!-- Les Urls interceptées seront peut être écrites d'une autre manière 
-			!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 		<!-- Interception des URL -->
-		<security:intercept-url pattern="/admin_cat/**"
+		<security:intercept-url pattern="/adminCat/**"
 			access="ROLE_ADMIN_CAT" />
-		<security:intercept-url pattern="/admin_prod/**"
+		<security:intercept-url pattern="/adminProd/**"
 			access="ROLE_ADMIN_PROD,ROLE_ADMIN_CAT" />
 		<security:form-login login-page="/loginUrl"
 			authentication-failure-url="/loginUrl" />
 		<security:logout invalidate-session="true"
-			logout-success-url="/employe/accueil" /> <!-- A voir par la suite où redirige la déco!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+			logout-success-url="/client/acc" /> 
 	</security:http>
 	<security:authentication-manager>
 		<security:authentication-provider>
-			<!-- Les requetes SQL sont à modifier!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 			<security:jdbc-user-service
 				data-source-ref="dataSourceBean1"
-				users-by-username-query="SELECT username,password,activated FROM users WHERE username=?"
-				authorities-by-username-query="SELECT u.username,r.rolename FROM users u, roles r WHERE r.id_r=u.id_role AND u.username=?" />
+				users-by-username-query="SELECT mail,password,activated FROM admins WHERE mail=?"
+				authorities-by-username-query="SELECT a.mail,r.designation FROM admins a, roles r WHERE r.id_role=a.role_id AND a.mail=?" />
 		</security:authentication-provider>
 
 	</security:authentication-manager>

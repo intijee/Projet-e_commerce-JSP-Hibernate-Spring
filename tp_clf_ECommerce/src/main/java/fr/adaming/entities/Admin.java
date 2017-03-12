@@ -35,6 +35,9 @@ public class Admin implements Serializable{
 	// Mot de passe pour le login
 	private String password;
 	
+	//ajout de l'activated
+	private Boolean activated = true;
+	
 	@ManyToOne
 	@JoinColumn(name="role_id", referencedColumnName="id_role")
 	private Role pRole;

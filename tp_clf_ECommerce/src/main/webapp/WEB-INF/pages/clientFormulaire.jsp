@@ -16,7 +16,7 @@
 </head>
 <body background='<c:url value="/resources/fonecran.jpg"/>'>
 
-	<%@include file="/resources/include/menuAdminCat.html"%>
+	<%@include file="/resources/include/menuClient.html"%>
 <h1 style="color: fuchsia;">Coordonnées du client</h1>
 	<div
 		style="width: 400px; height: 500px; margin: auto; margin-top: 50px">

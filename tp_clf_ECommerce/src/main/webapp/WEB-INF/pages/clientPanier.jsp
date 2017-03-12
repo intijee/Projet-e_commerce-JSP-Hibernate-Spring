@@ -37,6 +37,7 @@
 						</tr>
 					</c:forEach>
 		</table>
+		<div align="right"><h2 style="color:fuchsia;">Prix Total : ${prix}</h2></div>
 		
 		<a href="enregistrerClient">Enregistrer la commande</a>
 
